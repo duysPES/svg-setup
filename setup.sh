@@ -44,7 +44,8 @@ printf "%s\n" \
  $cythonize $CRED_PATH/$CRED_FNAME.pyx -$PY_VERSION -i
  
   # now clean up files that we don't need.
-  rm $CRED_PATH/$CRED_FNAME.*
+  rm $CRED_PATH/$CRED_FNAME.pyx
+  rm $CRED_PATH/$CRED_FNAME.c
 
   
 
