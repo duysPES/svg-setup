@@ -41,12 +41,8 @@ printf "%s\n" \
   > $CRED_PATH/$CRED_FNAME.py
   
   # use cython to convert to *.c
-  $py -m cython $CRED_PATH/$CRED_FNAME -$PY_VERSION
-  
-  
-  # now actually compile it to a .so file
-  gcc -shared -fPIC `pkg-config --cflags ${PYTHONLIB}` $CRED_FNAME.c -o $CRED_FNAME.so
-  
+  $py -m cython $CRED_PATH/$CRED_FNAME -$PY_VERSION -i
+ 
   # now clean up files that we don't need.
   rm $CRED_PATH/$CRED_FNAME.*
 
