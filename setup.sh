@@ -1,4 +1,6 @@
 #! /bin/bash
+# cd to home directory
+cd ~
 
 # update apt
 sudo apt update && sudo apt upgrade -y
@@ -7,7 +9,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt update --fix-missing && sudo apt upgrade -y
 
 # download appropriate apt packages
-sudo apt install virtualenv python3.7 python3-tk nodm xserver-xorg xinit openbox-y
+sudo apt install virtualenv python3.7 python3-tk nodm xserver-xorg xinit openbox emacs -y
 
 # create virtualenv and set python variables
 virtualenv --python=python3.7 ~/py
