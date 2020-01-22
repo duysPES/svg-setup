@@ -9,7 +9,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt update --fix-missing && sudo apt upgrade -y
 
 # download appropriate apt packages
-sudo apt install build-essential virtualenv python3.7 python3-tk nodm xserver-xorg xinit openbox emacs -y
+sudo apt install build-essential virtualenv python3.7 python3.7-dev python3-tk nodm xserver-xorg xinit openbox emacs -y
 
 # create virtualenv and set python variables
 virtualenv --python=python3.7 /home/pi/py
