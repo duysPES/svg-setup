@@ -47,5 +47,11 @@ printf "%s\n" \
   rm $CRED_PATH/$CRED_FNAME.pyx
   rm $CRED_PATH/$CRED_FNAME.c
 
-  
+  # now add udev rules to gaurantee that ttyUSB0 is always readable/writable
+  UDEV="/etc/udev/rules.d"
+  sudo printf "%s\n" \
+    "KERNEL=="ttyUSB0", MODE="0666" \
+    > $UDEV/usb0-always-editable.rules
+    
+   echo "Done with setup, recommended to reboot"
 
