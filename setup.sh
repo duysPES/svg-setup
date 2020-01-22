@@ -1,7 +1,10 @@
 #! /bin/bash
 
 # update apt
-sudo apt upgrade && sudo apt update -y
+sudo apt update && sudo apt upgrade -y
+
+# redundancy
+sudo apt update --fix-missing && sudo apt upgrade -y
 
 # download appropriate apt packages
 sudo apt install virtualenv python3.7 python3-tk -y
