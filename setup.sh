@@ -34,7 +34,7 @@ CRED_PASSWORD="Dawie2018"
 PY_VERSION="3"
 echo $CRED_PATH, $CRED_FNAME
 # write native python func that checks credentials
-echo \
+printf "%s\n" \
   "def check_credentials(name, password):" \
   "    if name != '${CRED_USERNAME}':" \
   "        return False" \
