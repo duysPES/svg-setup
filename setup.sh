@@ -31,14 +31,14 @@ PY_VERSION="3"
 PYTHONLIB="python3.7m"
 echo $CRED_PATH, $CRED_FNAME
 # write native python func that checks credentials
-printf "%s\n" \
+echo \
   "def check_credentials(name, password):" \
   "    if name != '${CRED_USERNAME}':" \
   "        return False" \
   "    if password != '${CRED_PASSWORD}':" \
   "        return False" \
   "    return True" \
-  > $CRED_PATH/$CRED_FNAME.py
+  > $CRED_PATH/$CRED_FNAME.pyx
   
   # use cython to convert to *.c
   $py -m cython $CRED_PATH/$CRED_FNAME -$PY_VERSION -i
