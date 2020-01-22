@@ -6,9 +6,6 @@ HOME="/home/pi"
 cd ~
 
 # update apt
-sudo apt update && sudo apt upgrade -y
-
-# redundancy
 sudo apt update --fix-missing && sudo apt upgrade -y
 
 # download appropriate apt packages
