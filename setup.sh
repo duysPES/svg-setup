@@ -1,4 +1,7 @@
 #! /bin/bash
+
+HOME="/home/pi"
+
 # cd to home directory
 cd ~
 
@@ -12,23 +15,23 @@ sudo apt update --fix-missing && sudo apt upgrade -y
 sudo apt install build-essential virtualenv python3.7 python3.7-dev python3-tk nodm xserver-xorg xinit openbox emacs -y
 
 # create virtualenv and set python variables
-virtualenv --python=python3.7 /home/pi/py
+virtualenv --python=python3.7 $HOME/py
 
-py="/home/pi/py/bin/python"
-pip="/home/pi/py/bin/pip"
+py="${HOME}/py/bin/python"
+pip="${HOME}/py/bin/pip"
+cythonize="${HOME}/py/bin/cythonize"
 
 # install appropriate pip package
 $pip install pyserial pysimplegui ipython cython
 
 # clone latest svg
-git clone https://github.com/duysPES/shooting-verification-gui svg
+git clone https://github.com/duysPES/shooting-verification-gui $HOME/svg
 
-CRED_PATH="/home/pi/svg/pysrc"
+CRED_PATH="${HOME}/svg/pysrc"
 CRED_FNAME="credentials"
 CRED_USERNAME="duanuys"
 CRED_PASSWORD="Dawie2018"
 PY_VERSION="3"
-PYTHONLIB="python3.7m"
 echo $CRED_PATH, $CRED_FNAME
 # write native python func that checks credentials
 echo \
@@ -41,7 +44,7 @@ echo \
   > $CRED_PATH/$CRED_FNAME.pyx
   
   # use cython to convert to *.c
-  $py -m cython $CRED_PATH/$CRED_FNAME -$PY_VERSION -i
+ $cythonize $CRED_PATH/$CRED_FNAME.pyx -$PY_VERSION -i
  
   # now clean up files that we don't need.
   rm $CRED_PATH/$CRED_FNAME.*
