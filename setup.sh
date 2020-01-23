@@ -2,6 +2,14 @@
 
 HOME="/home/pi"
 
+while true; do
+  read -p "Download binary?" yn
+  case $yn in 
+    [Yy]* ) BINARY=true; echo "version?"; read VERSION; break;;
+    [Nn]* ) BINARY=false; break;;
+    * ) echo "Please answer yes or no.";;
+  esac
+done
 
 # update apt
 sudo apt update --fix-missing && sudo apt upgrade -y
@@ -15,15 +23,6 @@ sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NO
   
   
 # diverge path here, either install source and compile or.. download latest version based on version number
-while true; do
-  read -p "Download binary?" yn
-  case $yn in 
-    [Yy]* ) BINARY=true; echo "version?"; read VERSION; break;;
-    [Nn]* ) BINARY=false; break;;
-    * ) echo "Please answer yes or no.";;
-  esac
-done
-
 if [ $BINARY ]
 then 
   # download latest binary
