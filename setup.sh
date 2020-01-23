@@ -23,7 +23,7 @@ sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NO
 
 
 # diverge path here, either install source and compile or.. download latest version based on version number
-if [ $BINARY ]
+if [ "$BINARY" = true ]
 then 
   # download latest binary
   echo "\n***Downloading version ${VERSION}***\n"
