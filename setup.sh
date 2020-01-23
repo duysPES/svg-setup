@@ -6,8 +6,32 @@ HOME="/home/pi"
 # update apt
 sudo apt update --fix-missing && sudo apt upgrade -y
 
+# get packages related to GUI.
+sudo apt install build-essential nodm xserver-xorg xinit xterm openbox -y
+
+#configure nodm
+sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NODM_USER=pi/" \
+/etc/default/nodm
+  
+  
+# diverge path here, either install source and compile or.. download latest version based on version number
+while true; do
+  read -p "Download binary?" yn
+  case $yn in 
+    [Yy]* ) BINARY=true; echo "version?"; read VERSION; break;;
+    [Nn]* ) BINARY=false; break;;
+    * ) echo "Please answer yes or no.";;
+  esac
+done
+
+if [ $BINARY ]
+then 
+  # download latest binary
+else
+echo "Doing this from source then.."
+
 # download appropriate apt packages
-sudo apt install build-essential virtualenv python3.7 python3.7-dev python3-tk nodm xserver-xorg xinit openbox xterm emacs -y
+sudo apt install build-essential virtualenv python3.7 python3.7-dev python3-tk -y
 
 # set git credentials
 git config --global user.email "duys@pioneeres.com"
@@ -21,11 +45,12 @@ pip="${HOME}/py/bin/pip"
 cythonize="${HOME}/py/bin/cythonize"
 
 # install appropriate pip package
-$pip install pyserial pysimplegui ipython cython
+$pip install pyserial pysimplegui ipython cython pyinstaller
 
 # clone latest svg
 git clone https://github.com/duysPES/shooting-verification-gui $HOME/svg
 
+echo "***Serializing credentials***"
 CRED_PATH="${HOME}/svg/pysrc"
 CRED_FNAME="credentials"
 CRED_USERNAME="duanuys"
@@ -42,26 +67,15 @@ printf "%s\n" \
   "    return True" \
   > $CRED_PATH/$CRED_FNAME.pyx
   
-  # use cython to convert to *.c
+  # use cython to convert to shared *.so
  $cythonize $CRED_PATH/$CRED_FNAME.pyx -$PY_VERSION -i
  
   # now clean up files that we don't need.
   rm $CRED_PATH/$CRED_FNAME.pyx
   rm $CRED_PATH/$CRED_FNAME.c
-
-  # now add udev rules to gaurantee that ttyUSB0 is always readable/writable
- # UDEV="/etc/udev/rules.d"
- # sudo printf "%s\n" \
- #   "KERNEL==\"ttyUSB0\", MODE=\"0666\" \
- #   > $UDEV/usb0-always-editable.rules
+ fi
  
- #configure nodm
- sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NODM_USER=pi/" \
-  /etc/default/nodm
-  
-  
  mkdir -p $HOME/.config/openbox
- 
  MAIN_PY="${HOME}/svg/main.py"
  # write autostart
  printf "%s\n" \
