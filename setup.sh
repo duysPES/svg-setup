@@ -52,16 +52,22 @@ printf "%s\n" \
  # sudo printf "%s\n" \
  #   "KERNEL==\"ttyUSB0\", MODE=\"0666\" \
  #   > $UDEV/usb0-always-editable.rules
-    
+ 
+ #configure nodm
+ sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NODM_USER=pi/" \
+  /etc/default/nodm
+  
+  
  mkdir -p $HOME/.config/openbox
  
  MAIN_PY="${HOME}/svg/main.py"
  # write autostart
  printf "%s\n" \
   "#!/usr/bin/env bash" \
+  "exec openbox-session &" \
   "while true; do"\
   "    ${py} ${MAIN_PY}" \
-  "done;" \
+  "done" \
   > ~/.config/openbox/autostart
  
  echo "Done with setup, recommended to reboot"
