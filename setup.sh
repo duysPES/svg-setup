@@ -27,47 +27,47 @@ if [ $BINARY ]
 then 
   # download latest binary
 else
-echo "Doing this from source then.."
+  echo "Doing this from source then.."
 
-# download appropriate apt packages
-sudo apt install build-essential virtualenv python3.7 python3.7-dev python3-tk -y
+  # download appropriate apt packages
+  sudo apt install build-essential virtualenv python3.7 python3.7-dev python3-tk -y
 
-# set git credentials
-git config --global user.email "duys@pioneeres.com"
-git config --global user.name "duysPES"
+  # set git credentials
+  git config --global user.email "duys@pioneeres.com"
+  git config --global user.name "duysPES"
 
-# create virtualenv and set python variables
-virtualenv --python=python3.7 $HOME/py
+  # create virtualenv and set python variables
+  virtualenv --python=python3.7 $HOME/py
 
-py="${HOME}/py/bin/python"
-pip="${HOME}/py/bin/pip"
-cythonize="${HOME}/py/bin/cythonize"
+  py="${HOME}/py/bin/python"
+  pip="${HOME}/py/bin/pip"
+  cythonize="${HOME}/py/bin/cythonize"
 
-# install appropriate pip package
-$pip install pyserial pysimplegui ipython cython pyinstaller
+  # install appropriate pip package
+  $pip install pyserial pysimplegui ipython cython pyinstaller
 
-# clone latest svg
-git clone https://github.com/duysPES/shooting-verification-gui $HOME/svg
+  # clone latest svg
+  git clone https://github.com/duysPES/shooting-verification-gui $HOME/svg
 
-echo "***Serializing credentials***"
-CRED_PATH="${HOME}/svg/pysrc"
-CRED_FNAME="credentials"
-CRED_USERNAME="duanuys"
-CRED_PASSWORD="Dawie2018"
-PY_VERSION="3"
-echo $CRED_PATH, $CRED_FNAME
-# write native python func that checks credentials
-printf "%s\n" \
-  "def check_credentials(name, password):" \
-  "    if name != '${CRED_USERNAME}':" \
-  "        return False" \
-  "    if password != '${CRED_PASSWORD}':" \
-  "        return False" \
-  "    return True" \
-  > $CRED_PATH/$CRED_FNAME.pyx
+  echo "***Serializing credentials***"
+  CRED_PATH="${HOME}/svg/pysrc"
+  CRED_FNAME="credentials"
+  CRED_USERNAME="duanuys"
+  CRED_PASSWORD="Dawie2018"
+  PY_VERSION="3"
+  echo $CRED_PATH, $CRED_FNAME
+  # write native python func that checks credentials
+  printf "%s\n" \
+    "def check_credentials(name, password):" \
+    "    if name != '${CRED_USERNAME}':" \
+    "        return False" \
+    "    if password != '${CRED_PASSWORD}':" \
+    "        return False" \
+    "    return True" \
+    > $CRED_PATH/$CRED_FNAME.pyx
   
   # use cython to convert to shared *.so
- $cythonize $CRED_PATH/$CRED_FNAME.pyx -$PY_VERSION -i
+  $cythonize $CRED_PATH/$CRED_FNAME.pyx -$PY_VERSION -i
  
   # now clean up files that we don't need.
   rm $CRED_PATH/$CRED_FNAME.pyx
