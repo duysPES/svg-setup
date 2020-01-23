@@ -2,8 +2,6 @@
 
 HOME="/home/pi"
 
-# cd to home directory
-cd ~
 
 # update apt
 sudo apt update --fix-missing && sudo apt upgrade -y
