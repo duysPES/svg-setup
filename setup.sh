@@ -26,10 +26,25 @@ sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NO
 if [ "$BINARY" = true ]
 then 
   # download latest binary
+  BIN="${HOME}/svg/dist/main"
+  
   echo "\n***Downloading version ${VERSION}***\n"
   wget https://github.com/duysPES/svg/archive/${VERSION}.tar.gz -P $HOME
   tar -xvzf $HOME/$VERSION.tar.gz -C $HOME
   mv $HOME/svg-$VERSION $HOME/svg
+  
+  mkdir -p $HOME/.config/openbox
+  MAIN_PY="${HOME}/svg/main.py"
+  # write autostart
+  printf "%s\n" \
+    "#!/usr/bin/env bash" \
+    "exec openbox-session &" \
+    "while true; do" \
+    "    ${BIN}" \
+    "done" \
+  > ~/.config/openbox/autostart
+
+  echo "Done with setup, recommended to reboot"
   
 else
   echo "Doing this from source then.."
@@ -77,18 +92,21 @@ else
   # now clean up files that we don't need.
   rm $CRED_PATH/$CRED_FNAME.pyx
   rm $CRED_PATH/$CRED_FNAME.c
+  
+  mkdir -p $HOME/.config/openbox
+  MAIN_PY="${HOME}/svg/main.py"
+  # write autostart
+  printf "%s\n" \
+    "#!/usr/bin/env bash" \
+    "exec openbox-session &" \
+    "while true; do" \
+    "    ${py} ${MAIN_PY}" \
+    "done" \
+  > ~/.config/openbox/autostart
+
+  echo "Done with setup, recommended to reboot"
+  
  fi
  
-mkdir -p $HOME/.config/openbox
-MAIN_PY="${HOME}/svg/main.py"
-# write autostart
-printf "%s\n" \
-  "#!/usr/bin/env bash" \
-  "exec openbox-session &" \
-  "while true; do" \
-  "    ${py} ${MAIN_PY}" \
-  "done" \
-> ~/.config/openbox/autostart
 
-echo "Done with setup, recommended to reboot"
 
