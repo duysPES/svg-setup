@@ -15,7 +15,7 @@ done
 sudo apt update --fix-missing && sudo apt upgrade -y
 
 # get packages related to GUI.
-sudo apt install build-essential nodm xserver-xorg xinit xterm openbox -y
+sudo apt install build-essential nodm xserver-xorg xinit xterm openbox wget -y
 
 #configure nodm
 sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NODM_USER=pi/" \
@@ -26,7 +26,10 @@ sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NO
 if [ $BINARY ]
 then 
   # download latest binary
-  echo "downloading version ${VERSION}"
+  echo "\n***Downloading version ${VERSION}***\n"
+  wget https://github.com/duysPES/svg/archive/${VERSION}.tar.gz -P $HOME
+  tar -xvzf $HOME/$VERSION.tar.gz
+  mv $HOME/svg-$VERSION $HOME/svg
   
 else
   echo "Doing this from source then.."
