@@ -3,9 +3,9 @@
 HOME="/home/pi"
 
 while true; do
-  read -p "Download binary?" yn
+  read -p -r  "Download binary?" yn
   case $yn in 
-    [Yy]* ) BINARY=true; echo "version?"; read VERSION; break;;
+    [Yy]* ) BINARY=true; echo "version?"; read -r VERSION; break;;
     [Nn]* ) BINARY=false; break;;
     * ) echo "Please answer yes or no.";;
   esac
@@ -20,12 +20,14 @@ sudo apt install build-essential nodm xserver-xorg xinit xterm openbox -y
 #configure nodm
 sudo sed -i -e "s/NODM_ENABLED=false/NODM_ENABLED=true/" -e "s/NODM_USER=root/NODM_USER=pi/" \
 /etc/default/nodm
-  
-  
+
+
 # diverge path here, either install source and compile or.. download latest version based on version number
 if [ $BINARY ]
 then 
   # download latest binary
+  echo "downloading version ${VERSION}"
+  
 else
   echo "Doing this from source then.."
 
@@ -74,16 +76,16 @@ else
   rm $CRED_PATH/$CRED_FNAME.c
  fi
  
- mkdir -p $HOME/.config/openbox
- MAIN_PY="${HOME}/svg/main.py"
- # write autostart
- printf "%s\n" \
+mkdir -p $HOME/.config/openbox
+MAIN_PY="${HOME}/svg/main.py"
+# write autostart
+printf "%s\n" \
   "#!/usr/bin/env bash" \
   "exec openbox-session &" \
-  "while true; do"\
+  "while true; do" \
   "    ${py} ${MAIN_PY}" \
   "done" \
-  > ~/.config/openbox/autostart
- 
- echo "Done with setup, recommended to reboot"
+> ~/.config/openbox/autostart
+
+echo "Done with setup, recommended to reboot"
 
