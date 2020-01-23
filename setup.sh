@@ -53,5 +53,16 @@ printf "%s\n" \
  #   "KERNEL==\"ttyUSB0\", MODE=\"0666\" \
  #   > $UDEV/usb0-always-editable.rules
     
-   echo "Done with setup, recommended to reboot"
+ mkdir -p $HOME/.config/openbox
+ 
+ MAIN_PY="${HOME}/svg/main.py"
+ # write autostart
+ printf "%s\n" \
+  "#!/usr/bin/env bash" \
+  "while true; do"\
+  "    ${py} ${MAIN_PY}" \
+  "done;" \
+  > ~/.config/openbox/autostart
+ 
+ echo "Done with setup, recommended to reboot"
 
