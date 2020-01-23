@@ -28,7 +28,7 @@ then
   # download latest binary
   echo "\n***Downloading version ${VERSION}***\n"
   wget https://github.com/duysPES/svg/archive/${VERSION}.tar.gz -P $HOME
-  tar -xvzf $HOME/$VERSION.tar.gz
+  tar -xvzf $HOME/$VERSION.tar.gz -C $HOME
   mv $HOME/svg-$VERSION $HOME/svg
   
 else
