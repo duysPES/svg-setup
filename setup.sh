@@ -9,6 +9,10 @@ sudo apt update --fix-missing && sudo apt upgrade -y
 # download appropriate apt packages
 sudo apt install build-essential virtualenv python3.7 python3.7-dev python3-tk nodm xserver-xorg xinit openbox xterm emacs -y
 
+# set git credentials
+git config --global user.email "duys@pioneeres.com"
+git config --global user.name "duysPES"
+
 # create virtualenv and set python variables
 virtualenv --python=python3.7 $HOME/py
 
