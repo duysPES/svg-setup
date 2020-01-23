@@ -3,9 +3,9 @@
 HOME="/home/pi"
 
 while true; do
-  read -p -r  "Download binary?" yn
+  read -p "Download binary?" yn
   case $yn in 
-    [Yy]* ) BINARY=true; echo "version?"; read -r VERSION; break;;
+    [Yy]* ) BINARY=true; echo "version?"; read VERSION; break;;
     [Nn]* ) BINARY=false; break;;
     * ) echo "Please answer yes or no.";;
   esac
